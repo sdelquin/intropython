@@ -1,0 +1,6 @@
+jupyter
+requests
+pillow
+beautifulsoup4
+qrcode
+algorithms

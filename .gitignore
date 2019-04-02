@@ -1,0 +1,7 @@
+.vscode
+*.pyc
+.DS_Store
+*checkpoint.ipynb
+*.slides.html
+*-custom.ipynb
+netflix_shows.min.csv

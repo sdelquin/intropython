@@ -43,3 +43,4 @@ edit:
 
 clean:
 	rm -fv *html
+	rm -f *-custom.ipynb

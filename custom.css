@@ -1,8 +1,14 @@
+/* alignment */
+table {
+    margin-left: initial !important;
+}
+
 /* title of columns */
 table thead th {
     font-size: 1.2em !important;
     padding-top: 0.2em !important;
     padding-bottom: 0.2em !important;
+    text-align: left !important;
 }
 
 /* title of rows */
@@ -26,24 +32,4 @@ table tbody tr {
 /* row color on hover */
 table tbody tr:hover {
     background: rgba(43, 137, 226, 0.144) !important;
-}
-
-/* Settings for slides */
-
-.present table thead th {
-    font-size: 1.5em !important;
-}
-
-.present table tbody th {
-    font-size: 1.5em !important;
-}
-
-.present table td {
-    font-size: 1.3em !important;
-}
-
-.present table thead th {
-    border-bottom: none !important;
-    padding-top: 0.1em !important;
-    padding-bottom: 0.1em !important;
 }

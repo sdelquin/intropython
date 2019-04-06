@@ -25,12 +25,12 @@ netflix_favs = {
     },
 }
 
-premiere_years = []
+ratings = []
 
 for features in netflix_favs.values():
-    premiere_year = features['premiere_year']
-    premiere_years.append(premiere_year)
+    rating = features.get('rating', 0)
+    ratings.append(rating)
 
-avg_premiere_years = sum(premiere_years) // len(premiere_years)
+avg_ratings = sum(ratings) / len(ratings)
 
-print(avg_premiere_years)
+print(avg_ratings)

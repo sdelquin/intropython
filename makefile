@@ -41,6 +41,10 @@ present: slides
 edit:
 	pipenv run jupyter notebook
 
+pdf: ${NOTEBOOK_FILE}
+	pipenv run jupyter nbconvert --to pdf  ${NOTEBOOK_FILE}
+
 clean:
 	rm -fv *html
 	rm -f *-custom.ipynb
+	rm -f *.pdf

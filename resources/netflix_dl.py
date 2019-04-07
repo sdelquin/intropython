@@ -103,7 +103,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 
 with open(
         'netflix-series.csv', 'w', newline='') as series_file, open(
-            'netflix-seasons.csv', 'w', newline='') as seasons_file:
+            'netflix-episodes.csv', 'w', newline='') as episodes_file:
     series_writer = csv.writer(
         series_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     series_writer.writerow([
@@ -111,10 +111,10 @@ with open(
         'Starring', 'Creators', 'Twitter URL'
     ])
 
-    seasons_writer = csv.writer(
-        seasons_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    seasons_writer.writerow([
-        'Serie ID', '#Season', '#Episode', 'Title', 'Length (minutes)',
+    episodes_writer = csv.writer(
+        episodes_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    episodes_writer.writerow([
+        'Serie ID', '#Season', '#Episode', 'Episode title', 'Length (minutes)',
         'Synopsis'
     ])
 
@@ -135,7 +135,7 @@ with open(
 
         for i, season in enumerate(ndl.seasons):
             for j, episode in enumerate(season):
-                seasons_writer.writerow([
+                episodes_writer.writerow([
                     ndl.id, i + 1, j + 1, episode['title'], episode['length'],
                     episode['synopsis']
                 ])

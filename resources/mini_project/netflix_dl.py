@@ -1,17 +1,18 @@
 import csv
 import re
+import sys
 
 import requests
 from bs4 import BeautifulSoup
 
 NETFLIX_SERIES_URL = 'https://www.netflix.com/es/browse/genre/83'
-NUM_SERIES_TO_DOWNLOAD = 30
 
 
 class NetflixDownloader:
     def __init__(self, url):
         self.url = url
         self.id = re.search(r'[^/]+$', self.url).group()
+        self.csvfile = f'netflix-{self.id}.csv'
         response = requests.get(self.url)
         self.soup = BeautifulSoup(response.text, 'html.parser')
         self._load_serie_fields()
@@ -97,45 +98,42 @@ class NetflixDownloader:
                 self.seasons.insert(0, season)
                 season = []
 
+    def dump2csv(self):
+        with open(self.csvfile, 'w', newline='') as f:
+            csv_writer = csv.writer(f,
+                                    delimiter=';',
+                                    quotechar='"',
+                                    quoting=csv.QUOTE_MINIMAL)
+            csv_writer.writerow([
+                self.id, self.title, self.premiere_year, self.age_limit,
+                self.num_seasons, self.genres_joined, self.starring_joined,
+                self.creators_joined, self.twitter_url
+            ])
+            for i, season in enumerate(self.seasons):
+                for j, episode in enumerate(season):
+                    csv_writer.writerow([
+                        i + 1, j + 1, episode['title'],
+                        episode['length'], episode['synopsis'], 0   # rating 0
+                    ])
 
-response = requests.get(NETFLIX_SERIES_URL)
-soup = BeautifulSoup(response.text, 'html.parser')
 
-with open(
-        'netflix-series.csv', 'w', newline='') as series_file, open(
-            'netflix-episodes.csv', 'w', newline='') as episodes_file:
-    series_writer = csv.writer(
-        series_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    series_writer.writerow([
-        'ID', 'Title', 'Premiere year', 'Age Limit', 'Num. seasons', 'Genres',
-        'Starring', 'Creators', 'Twitter URL'
-    ])
-
-    episodes_writer = csv.writer(
-        episodes_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    episodes_writer.writerow([
-        'Serie ID', '#Season', '#Episode', 'Episode title', 'Length (minutes)',
-        'Synopsis'
-    ])
-
-    for a in soup.find_all(
+def get_netflix_series(num_series=1_000_000):
+    response = requests.get(NETFLIX_SERIES_URL)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    return [
+        a.get('href') for a in soup.find_all(
             'a',
             class_='nm-collections-title nm-collections-link',
-            limit=NUM_SERIES_TO_DOWNLOAD):
-        url = a.get('href')
-        print(f'Procesando: {url}...')
+            limit=num_series)
+    ]
 
-        ndl = NetflixDownloader(url)
 
-        series_writer.writerow([
-            ndl.id, ndl.title, ndl.premiere_year, ndl.age_limit,
-            ndl.num_seasons, ndl.genres_joined, ndl.starring_joined,
-            ndl.creators_joined, ndl.twitter_url
-        ])
+def download_netflix_serie(url):
+    ndl = NetflixDownloader(url)
+    ndl.dump2csv()
 
-        for i, season in enumerate(ndl.seasons):
-            for j, episode in enumerate(season):
-                episodes_writer.writerow([
-                    ndl.id, i + 1, j + 1, episode['title'], episode['length'],
-                    episode['synopsis']
-                ])
+
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        url = sys.argv[1]
+        download_netflix_serie(url)

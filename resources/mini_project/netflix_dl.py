@@ -106,8 +106,7 @@ class NetflixDownloader:
                                     quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow([
                 self.id, self.title, self.premiere_year, self.age_limit,
-                self.num_seasons, self.genres_joined, self.starring_joined,
-                self.creators_joined, self.twitter_url
+                self.num_seasons, self.starring_joined, self.twitter_url
             ])
             for i, season in enumerate(self.seasons):
                 for j, episode in enumerate(season):

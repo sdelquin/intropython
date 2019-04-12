@@ -38,11 +38,14 @@ slides: ${NOTEBOOK_FILE}
 present: slides
 	${OPEN_CMD} ${SLIDES_FILE}
 
-edit:
+jupyter:
 	pipenv run jupyter notebook
 
 pdf: ${NOTEBOOK_FILE}
 	pipenv run jupyter nbconvert --to pdf  ${NOTEBOOK_FILE}
+
+install:
+	pipenv install --three --skip-lock
 
 update:
 	pipenv run python update.py

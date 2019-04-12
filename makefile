@@ -44,6 +44,9 @@ edit:
 pdf: ${NOTEBOOK_FILE}
 	pipenv run jupyter nbconvert --to pdf  ${NOTEBOOK_FILE}
 
+update:
+	pipenv run python update.py
+
 clean:
 	rm -fv *html
 	rm -f *-custom.ipynb

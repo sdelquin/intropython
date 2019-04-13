@@ -1,4 +1,5 @@
 jupyter
+matplotlib
 requests
 pillow
 beautifulsoup4

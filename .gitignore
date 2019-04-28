@@ -3,6 +3,6 @@
 .DS_Store
 *checkpoint.ipynb
 *.slides.html
-*-custom.ipynb
+backup
 netflix_shows.min.csv
 proyecto

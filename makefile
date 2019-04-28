@@ -44,6 +44,9 @@ jupyter:
 pdf: ${NOTEBOOK_FILE}
 	pipenv run jupyter nbconvert --to pdf  ${NOTEBOOK_FILE}
 
+pdfall:
+	find *.ipynb -exec pipenv run jupyter nbconvert --to pdf {} \;
+
 install:
 	pipenv install --three --skip-lock
 
